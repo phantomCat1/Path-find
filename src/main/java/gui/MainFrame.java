@@ -18,6 +18,11 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
         initComponents();
         jAlgoPanel.setVisible(false);
+        gridPanel = new GridPanel();
+        this.remove(jMainPanel);
+        this.add(gridPanel);
+        this.revalidate();
+        this.repaint();
         
     }
 
@@ -370,4 +375,5 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton jStopButton;
     private javax.swing.JPanel jTopPanel;
     // End of variables declaration//GEN-END:variables
+    private final GridPanel gridPanel;
 }

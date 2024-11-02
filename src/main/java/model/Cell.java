@@ -20,7 +20,7 @@ public class Cell {
         End,
         Wall
     }
-    public Status status;
+    private Status status;
     
     // weight represents the distance from the source node/ cell to the current cell
     private int weight = -1;
@@ -66,8 +66,28 @@ public class Cell {
         this.neighbours.add(n);
     }
     
-    public Status getStatus() {
-        return this.status;
+    public boolean isWall() {
+        if (this.status == Status.Wall) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public boolean isStart() {
+        if (this.status == Status.Start) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public boolean isEnd() {
+        if (this.status == Status.End) {
+            return true;
+        } else {
+            return false;
+        }
     }
     
     public void setStatus(Status s) {

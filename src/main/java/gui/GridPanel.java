@@ -47,7 +47,7 @@ public class GridPanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
-    private int cellSize = 30;
+    private int cellSize = 10;
     private int offsetX = cellSize;
     private int offsetY = cellSize;
     private Grid grid;
@@ -85,27 +85,37 @@ public class GridPanel extends javax.swing.JPanel {
     }
     
     private void paintCell(Graphics g, Cell cell, int x, int y) {
-       
+       if (cell.isWall()) {
+           g.setColor(Color.black);
+       } else if (cell.isStart()) {
+           g.setColor(Color.green);
+       } else if (cell.isEnd()) {
+           g.setColor(Color.red);
+       } else {
+           g.setColor(Color.white);
+       }
+       g.fillRect(x + 1, y - cellSize + 1,
+                    cellSize - 1, cellSize - 1);
     }
     
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        final int WIDTH = this.getWidth();
-        final int HEIGHT = this.getHeight();
+        final int width = this.cellSize*grid.getRows(); //this.getWidth();
+        final int height = this.cellSize*grid.getRows(); //this.getHeight();
         g.setColor(Color.WHITE);
         g.fillRect(cellSize, cellSize, WIDTH, HEIGHT);
         g.setColor(Color.BLACK);
         //draw horizontal separator lines
         for (int r = 0; r <= grid.getRows(); ++ r) {
             final int y = r * cellSize + offsetY;
-            g.drawLine(offsetX, y, WIDTH + offsetX, y);
+            g.drawLine(offsetX, y, width + offsetX, y);
         }
         
         // draw all vertical separator lines
         for (int c = 0; c <= grid.getCols(); ++ c) {
             final int x = c * cellSize + offsetX;
-            g.drawLine(x, offsetY, x, HEIGHT + offsetY);
+            g.drawLine(x, offsetY, x, height + offsetY);
         }
         
         // draw cells
