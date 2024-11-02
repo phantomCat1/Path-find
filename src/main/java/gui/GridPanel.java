@@ -3,10 +3,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package gui;
-
+import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.util.HashSet;
+import java.util.Set;
+import model.Grid;
+import model.Cell;
 /**
- *
- * @author 20232049
+ * This class represents the panel that will display the grid of cells and the 
+ * @author Marian Luca/ phantomCat1
  */
 public class GridPanel extends javax.swing.JPanel {
 
@@ -15,6 +20,7 @@ public class GridPanel extends javax.swing.JPanel {
      */
     public GridPanel() {
         initComponents();
+        initPanel();
     }
 
     /**
@@ -41,4 +47,92 @@ public class GridPanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
+    private int cellSize = 30;
+    private int offsetX = cellSize;
+    private int offsetY = cellSize;
+    private Grid grid;
+    private Cell start;
+    private Cell end;
+    private Set<Cell> walls;
+    
+    private void initPanel() {
+        this.grid = new Grid();
+        this.start = null;
+        this.end = null;
+        walls = new HashSet<Cell>();
+    }
+    
+    /*
+    This method returns the source cell 
+    */
+    public Cell getStart() {
+        return start;
+    }
+    
+    /*
+    This method returns the source cell 
+    */
+    public Cell getEnd() {
+        return end;
+    }
+    
+    public void setCellSize(int size) {
+        if (size <=30 && size >= 10) {
+            this.cellSize = size;
+            this.offsetX = size;
+            this.offsetY = size;
+        }
+    }
+    
+    private void paintCell(Graphics g, Cell cell, int x, int y) {
+       
+    }
+    
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        final int WIDTH = this.getWidth();
+        final int HEIGHT = this.getHeight();
+        g.setColor(Color.WHITE);
+        g.fillRect(cellSize, cellSize, WIDTH, HEIGHT);
+        g.setColor(Color.BLACK);
+        //draw horizontal separator lines
+        for (int r = 0; r <= grid.getRows(); ++ r) {
+            final int y = r * cellSize + offsetY;
+            g.drawLine(offsetX, y, WIDTH + offsetX, y);
+        }
+        
+        // draw all vertical separator lines
+        for (int c = 0; c <= grid.getCols(); ++ c) {
+            final int x = c * cellSize + offsetX;
+            g.drawLine(x, offsetY, x, HEIGHT + offsetY);
+        }
+        
+        // draw cells
+        for (int r = 0; r != grid.getRows(); ++ r) {
+            final int y = (r + 1) * cellSize + offsetY;
+            for (int c = 0; c != grid.getCols(); ++ c) {
+                final int x = c * cellSize + offsetX;
+                // x, y = coordinate of bottom-left corner
+                final Cell cell = grid.getCell(r, c);
+                paintCell(g, cell, x, y);
+            }
+        }
+    }
+    
+    /**
+     * This method returns the cell in grid upon a given mouse event
+     * @param evt the mouse event
+     * @return cell in grid at {@code evt} or {@code null} if non-existent
+     */
+    public Cell mouseToCell(final MouseEvent evt) {
+        final int row = (evt.getY() - offsetY) / cellSize;
+        final int col = (evt.getX() - offsetX) / cellSize;
+        if (this.grid.getCell(row, col) != null) {
+            return grid.getCell(row, col);
+        } else {
+            return null;
+        }
+    }
+    
 }
