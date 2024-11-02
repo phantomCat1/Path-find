@@ -250,8 +250,6 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jSolveButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jSolveButtonMouseClicked
         jAlgoPanel.setVisible(true);
-        //this.revalidate();
-        //this.repaint();
         this.pack();
     }//GEN-LAST:event_jSolveButtonMouseClicked
 
