@@ -13,12 +13,12 @@ import java.util.Set;
 public class Grid {
     // Values chosen based on the fact that a cell would be 10x10 pixels 
     // on a 850x530 pixels panel
-    private static final int ROWS = 85;
-    private static final int COLS = 53;
+    private static final int ROWS = 53;
+    private static final int COLS = 85;
     private static final int NOCELLS = ROWS*COLS;
     
     // 2D array representing the graph/ grid
-    private Cell[][] grid;
+    private final Cell[][] grid;
     //private int[][] graph;
     
     
@@ -51,7 +51,7 @@ public class Grid {
     
     public void resetWalls(Set<Cell> walls) {
         for (Cell cell: walls) {
-            cell.setStatus(Cell.Status.Normal);
+            cell.setStatus(0); // i.e to normal
         }
     }
     

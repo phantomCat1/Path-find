@@ -1,10 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package gui;
 
 import javax.swing.JOptionPane;
+import model.Cell;
 
 /**
  *
@@ -18,11 +16,9 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
         initComponents();
         jAlgoPanel.setVisible(false);
-        gridPanel = new GridPanel();
-        this.remove(jMainPanel);
-        this.add(gridPanel);
-        this.revalidate();
-        this.repaint();
+        gridPanel = jMainPanel;
+        jMainPanel.invalidate();
+        repaint();
         
     }
 
@@ -41,6 +37,8 @@ public class MainFrame extends javax.swing.JFrame {
         jSpeedSlider = new javax.swing.JSlider();
         jHelpButton = new javax.swing.JButton();
         jStopButton = new javax.swing.JButton();
+        jEraserRadioButton = new javax.swing.JRadioButton();
+        jLayeredPane1 = new javax.swing.JLayeredPane();
         jAlgoPanel = new java.awt.Panel();
         jDijkstraButton = new javax.swing.JButton();
         jAStarButton = new javax.swing.JButton();
@@ -48,12 +46,13 @@ public class MainFrame extends javax.swing.JFrame {
         jBFSButton = new javax.swing.JButton();
         jGreedyButton = new javax.swing.JButton();
         jBidirectionalButton = new javax.swing.JButton();
-        jMainPanel = new javax.swing.JPanel();
+        jMainPanel = new gui.GridPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(850, 600));
+        setPreferredSize(new java.awt.Dimension(860, 640));
+        setResizable(false);
 
-        jTopPanel.setPreferredSize(new java.awt.Dimension(850, 70));
+        jTopPanel.setPreferredSize(new java.awt.Dimension(860, 70));
 
         jSolveButton.setText("Solve");
         jSolveButton.setFocusable(false);
@@ -88,6 +87,13 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        jEraserRadioButton.setText("Eraser");
+        jEraserRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jEraserRadioButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jTopPanelLayout = new javax.swing.GroupLayout(jTopPanel);
         jTopPanel.setLayout(jTopPanelLayout);
         jTopPanelLayout.setHorizontalGroup(
@@ -103,23 +109,30 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(jSpeedSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(96, 96, 96)
                 .addComponent(jStopButton, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jEraserRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(42, Short.MAX_VALUE))
         );
         jTopPanelLayout.setVerticalGroup(
             jTopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jTopPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jTopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jStopButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jTopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jStopButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jEraserRadioButton))
                     .addGroup(jTopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jHelpButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jSolveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jSliderLabel)
                         .addComponent(jSpeedSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(31, 31, 31))
+                .addGap(554, 554, 554))
         );
 
+        jLayeredPane1.setPreferredSize(new java.awt.Dimension(860, 530));
+
         jAlgoPanel.setBackground(new java.awt.Color(204, 204, 204));
+        jAlgoPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jAlgoPanel.setForeground(new java.awt.Color(204, 255, 255));
         jAlgoPanel.setPreferredSize(new java.awt.Dimension(350, 400));
 
@@ -208,54 +221,90 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap(50, Short.MAX_VALUE))
         );
 
-        jMainPanel.setPreferredSize(new java.awt.Dimension(850, 530));
+        jMainPanel.setPreferredSize(new java.awt.Dimension(860, 530));
+        jMainPanel.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                jMainPanelMouseDragged(evt);
+            }
+        });
+        jMainPanel.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
+            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
+                jMainPanelMouseWheelMoved(evt);
+            }
+        });
+        jMainPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMainPanelMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jMainPanelLayout = new javax.swing.GroupLayout(jMainPanel);
         jMainPanel.setLayout(jMainPanelLayout);
         jMainPanelLayout.setHorizontalGroup(
             jMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 850, Short.MAX_VALUE)
+            .addGap(0, 860, Short.MAX_VALUE)
         );
         jMainPanelLayout.setVerticalGroup(
             jMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 530, Short.MAX_VALUE)
         );
 
+        jLayeredPane1.setLayer(jAlgoPanel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jMainPanel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
+        jLayeredPane1.setLayout(jLayeredPane1Layout);
+        jLayeredPane1Layout.setHorizontalGroup(
+            jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                .addComponent(jMainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                    .addGap(250, 250, 250)
+                    .addComponent(jAlgoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(192, Short.MAX_VALUE)))
+        );
+        jLayeredPane1Layout.setVerticalGroup(
+            jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jMainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                    .addGap(65, 65, 65)
+                    .addComponent(jAlgoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(65, Short.MAX_VALUE)))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTopPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(273, Short.MAX_VALUE)
-                .addComponent(jAlgoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(227, 227, 227))
+            .addComponent(jTopPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jMainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jTopPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jAlgoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(530, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jMainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGap(0, 70, Short.MAX_VALUE)
+                    .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jSolveButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jSolveButtonMouseClicked
-        jAlgoPanel.setVisible(true);
-        this.pack();
+        if (!solving) {
+            jAlgoPanel.setVisible(true);
+            this.pack();
+        }
+        
     }//GEN-LAST:event_jSolveButtonMouseClicked
 
     private void jHelpButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jHelpButtonMouseClicked
@@ -302,6 +351,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void jDijkstraButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jDijkstraButtonMouseClicked
         // TODO add your handling code here:
         jAlgoPanel.setVisible(false);
+        solving = true; // Keep track of the fact that solving has begun.
     }//GEN-LAST:event_jDijkstraButtonMouseClicked
 
     private void jDFSButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jDFSButtonMouseClicked
@@ -323,6 +373,95 @@ public class MainFrame extends javax.swing.JFrame {
     private void jBidirectionalButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBidirectionalButtonMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_jBidirectionalButtonMouseClicked
+
+    private void jMainPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMainPanelMouseClicked
+        // TODO add your handling code here:
+        if (evt.getClickCount()==0) {
+            return;
+        }
+        final Cell cell = gridPanel.mouseToCell(evt);
+        System.out.println(String.format("Cell coord: %d, %d", cell.getRow(), cell.getCol()));
+        if (cell == null) {
+            System.out.println("null cell clicke");
+            return;
+        }
+        
+        if (cell.isNormal() && cellTypeCounter == 0) {
+            System.out.println(String.format("Cell normal: %b", cell.isNormal()));
+            cell.setStatus(1); //i.e status START = 1 
+            gridPanel.setStart(cell);
+            cellTypeCounter = 1;
+            System.out.println(String.format("Cell start: %b", cell.isStart()));
+        }
+        else if (cell.isStart() && eraser) {
+            System.out.println(String.format("Cell start: %b", cell.isStart()));
+            cell.setStatus(0); // i.e. status NORMAL = 0
+            gridPanel.setStart(null);
+            cellTypeCounter = 0;
+            System.out.println(String.format("Cell normal: %b", cell.isNormal()));
+        }
+        else if (cell.isNormal() && cellTypeCounter == 1) {
+            cell.setStatus(2); // i.e status END = 2;
+            gridPanel.setEnd(cell);
+            cellTypeCounter = 2;
+        }
+        else if (cell.isEnd() && eraser) {
+            cell.setStatus(0); // i.e. status NORMAL = 0
+            gridPanel.setEnd(null);
+            cellTypeCounter = 1;
+        }
+        else if (cell.isNormal() && cellTypeCounter ==2 && !eraser) {
+            cell.setStatus(-1); // i.e status WALL = -1;
+            gridPanel.setWalls(cell);
+            cellTypeCounter =2;
+        }
+        else if (cell.isWall() && cellTypeCounter ==2 && eraser) {
+            cell.setStatus(0); // i.e status NORMAL = 0;
+            gridPanel.removeWalls(cell);
+            cellTypeCounter =2;
+        }
+        
+        jMainPanel.invalidate();
+        repaint();
+        jMainPanel.requestFocusInWindow();
+    }//GEN-LAST:event_jMainPanelMouseClicked
+
+    private void jMainPanelMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMainPanelMouseDragged
+        // TODO add your handling code here:
+        
+        final Cell cell = gridPanel.mouseToCell(evt);
+        System.out.println(String.format("Cell coord: %d, %d", cell.getRow(), cell.getCol()));
+        if (cell == null) {
+            System.out.println("null cell clicke");
+            return;
+        }
+        if (cell.isNormal() && cellTypeCounter ==2 && !eraser) {
+            cell.setStatus(-1); // i.e status WALL = -1;
+            gridPanel.setWalls(cell);
+            cellTypeCounter =2;
+        }
+        else if (cell.isWall() && cellTypeCounter ==2 && eraser ) {
+            cell.setStatus(0); // i.e status NORMAL = 0;
+            gridPanel.removeWalls(cell);
+            cellTypeCounter =2;
+        }
+        jMainPanel.invalidate();
+        repaint();
+        jMainPanel.requestFocusInWindow();
+    }//GEN-LAST:event_jMainPanelMouseDragged
+
+    private void jMainPanelMouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jMainPanelMouseWheelMoved
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMainPanelMouseWheelMoved
+
+    private void jEraserRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jEraserRadioButtonActionPerformed
+        // TODO add your handling code here:
+        if (eraser) {
+            eraser = false;
+        } else {
+            eraser = true;
+        }
+    }//GEN-LAST:event_jEraserRadioButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -366,9 +505,11 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton jBidirectionalButton;
     private javax.swing.JButton jDFSButton;
     private javax.swing.JButton jDijkstraButton;
+    private javax.swing.JRadioButton jEraserRadioButton;
     private javax.swing.JButton jGreedyButton;
     private javax.swing.JButton jHelpButton;
-    private javax.swing.JPanel jMainPanel;
+    private javax.swing.JLayeredPane jLayeredPane1;
+    private gui.GridPanel jMainPanel;
     private javax.swing.JLabel jSliderLabel;
     private javax.swing.JButton jSolveButton;
     private javax.swing.JSlider jSpeedSlider;
@@ -376,4 +517,10 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jTopPanel;
     // End of variables declaration//GEN-END:variables
     private final GridPanel gridPanel;
+    private boolean solving=false;
+    private boolean eraser = false;
+    private int cellTypeCounter=0; // used to keep track of the type of cells that have been selected
+    // 1 for start cell, 2 for stop cell, >2 for wall cell
+    
+   
 }

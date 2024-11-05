@@ -14,13 +14,11 @@ public class Cell {
     private int size = 30; // ???????????????????????????????
     
     // A cell can have any one of these statuses
-    enum Status {
-        Normal,
-        Start,
-        End,
-        Wall
-    }
-    private Status status;
+    private final int START = 1;
+    private final int END = 2;
+    private final int NORMAL = 0;
+    private final int WALL = -1;
+    private int status;
     
     // weight represents the distance from the source node/ cell to the current cell
     private int weight = -1;
@@ -38,7 +36,7 @@ public class Cell {
     public Cell(int row, int col) {
         this.row = row;
         this.col = col;
-        this.status = Status.Normal;
+        this.status = NORMAL;
     }
     
     /*
@@ -67,7 +65,7 @@ public class Cell {
     }
     
     public boolean isWall() {
-        if (this.status == Status.Wall) {
+        if (this.status == WALL) {
             return true;
         } else {
             return false;
@@ -75,7 +73,15 @@ public class Cell {
     }
     
     public boolean isStart() {
-        if (this.status == Status.Start) {
+        if (this.status == START) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public boolean isNormal() {
+        if (this.status == NORMAL) {
             return true;
         } else {
             return false;
@@ -83,14 +89,14 @@ public class Cell {
     }
     
     public boolean isEnd() {
-        if (this.status == Status.End) {
+        if (this.status == END) {
             return true;
         } else {
             return false;
         }
     }
     
-    public void setStatus(Status s) {
+    public void setStatus(int s) {
         this.status = s;
     }
     

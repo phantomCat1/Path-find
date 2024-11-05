@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
+
 package gui;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -70,10 +67,38 @@ public class GridPanel extends javax.swing.JPanel {
     }
     
     /*
+    This method is used to set the start cell of the path
+    */
+    public void setStart(Cell s) {
+        this.start = s;
+    }
+    
+    /*
     This method returns the source cell 
     */
     public Cell getEnd() {
         return end;
+    }
+    
+     /*
+    This method is used to set the start cell of the path
+    */
+    public void setEnd(Cell s) {
+        this.end = s;
+    }
+    
+    /*
+    This method is used to add selected cells to the set of walls
+    */
+    public void setWalls(Cell cell) {
+        walls.add(cell);
+    }
+    
+    /*
+    This method is used to add selected cells to the set of walls
+    */
+    public void removeWalls(Cell cell) {
+        walls.remove(cell);
     }
     
     public void setCellSize(int size) {
@@ -94,35 +119,35 @@ public class GridPanel extends javax.swing.JPanel {
        } else {
            g.setColor(Color.white);
        }
-       g.fillRect(x + 1, y - cellSize + 1,
+       g.fillRect(x + 1, y + 1,
                     cellSize - 1, cellSize - 1);
     }
     
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        final int width = this.cellSize*grid.getRows(); //this.getWidth();
-        final int height = this.cellSize*grid.getRows(); //this.getHeight();
+        final int width = 850;//this.cellSize*grid.getCols(); //this.getWidth();
+        final int height = 530;//this.cellSize*grid.getRows(); //this.getHeight();
         g.setColor(Color.WHITE);
-        g.fillRect(cellSize, cellSize, WIDTH, HEIGHT);
+        g.fillRect(0, 0, WIDTH, HEIGHT);
         g.setColor(Color.BLACK);
         //draw horizontal separator lines
-        for (int r = 0; r <= grid.getRows(); ++ r) {
-            final int y = r * cellSize + offsetY;
-            g.drawLine(offsetX, y, width + offsetX, y);
+        for (int r = 0; r < grid.getRows();  r++) {
+            final int y = r * cellSize;// + offsetY; these represent different ways i've played around with the graphics
+            g.drawLine(0, y, width , y); //+offsetX
         }
         
         // draw all vertical separator lines
-        for (int c = 0; c <= grid.getCols(); ++ c) {
-            final int x = c * cellSize + offsetX;
-            g.drawLine(x, offsetY, x, height + offsetY);
+        for (int c = 0; c < grid.getCols();  c++) {
+            final int x = c * cellSize;// + offsetX;
+            g.drawLine(x, 0, x, height); //+offsetY
         }
         
         // draw cells
-        for (int r = 0; r != grid.getRows(); ++ r) {
-            final int y = (r + 1) * cellSize + offsetY;
-            for (int c = 0; c != grid.getCols(); ++ c) {
-                final int x = c * cellSize + offsetX;
+        for (int r = 0; r < grid.getRows();  r++) {
+            final int y = (r ) * cellSize;// + offsetY;
+            for (int c = 0; c < grid.getCols();  c++) {
+                final int x = c * cellSize;// + offsetX;
                 // x, y = coordinate of bottom-left corner
                 final Cell cell = grid.getCell(r, c);
                 paintCell(g, cell, x, y);
@@ -136,8 +161,8 @@ public class GridPanel extends javax.swing.JPanel {
      * @return cell in grid at {@code evt} or {@code null} if non-existent
      */
     public Cell mouseToCell(final MouseEvent evt) {
-        final int row = (evt.getY() - offsetY) / cellSize;
-        final int col = (evt.getX() - offsetX) / cellSize;
+        final int row = (evt.getY()) / cellSize;
+        final int col = (evt.getX()) / cellSize;
         if (this.grid.getCell(row, col) != null) {
             return grid.getCell(row, col);
         } else {
