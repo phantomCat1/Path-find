@@ -161,8 +161,8 @@ public class GridPanel extends javax.swing.JPanel {
      * @return cell in grid at {@code evt} or {@code null} if non-existent
      */
     public Cell mouseToCell(final MouseEvent evt) {
-        final int row = (evt.getY()) / cellSize;
-        final int col = (evt.getX()) / cellSize;
+        final int row = evt.getY() / cellSize;
+        final int col = evt.getX() / cellSize;
         if (this.grid.getCell(row, col) != null) {
             return grid.getCell(row, col);
         } else {
