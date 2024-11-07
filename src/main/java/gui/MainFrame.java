@@ -227,11 +227,6 @@ public class MainFrame extends javax.swing.JFrame {
                 jMainPanelMouseDragged(evt);
             }
         });
-        jMainPanel.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
-            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
-                jMainPanelMouseWheelMoved(evt);
-            }
-        });
         jMainPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jMainPanelMouseClicked(evt);
@@ -249,7 +244,7 @@ public class MainFrame extends javax.swing.JFrame {
             .addGap(0, 530, Short.MAX_VALUE)
         );
 
-        jLayeredPane1.setLayer(jAlgoPanel, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jAlgoPanel, javax.swing.JLayeredPane.POPUP_LAYER);
         jLayeredPane1.setLayer(jMainPanel, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
@@ -301,8 +296,11 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jSolveButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jSolveButtonMouseClicked
         if (!solving) {
+            
             jAlgoPanel.setVisible(true);
+            System.out.println("Hello from solve");
             this.pack();
+            jAlgoPanel.requestFocusInWindow();
         }
         
     }//GEN-LAST:event_jSolveButtonMouseClicked
@@ -320,7 +318,7 @@ public class MainFrame extends javax.swing.JFrame {
                     "  Click and drag your mouse on any cell to create walls.",
                     " ",
                     "Step 3:",
-                    "  Click on the 'Start button and select any of the given algorithms.'",
+                    "  Click on the 'Start' button and select any of the given algorithms.",
                     " ",
                     "Step 4:",
                     "  You may click on the 'Stop' button to stop the execution",
@@ -338,6 +336,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jStopButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jStopButtonMouseClicked
         // TODO add your handling code here:
+        solving = false;
     }//GEN-LAST:event_jStopButtonMouseClicked
 
     private void jAStarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAStarButtonActionPerformed
@@ -449,10 +448,6 @@ public class MainFrame extends javax.swing.JFrame {
         repaint();
         jMainPanel.requestFocusInWindow();
     }//GEN-LAST:event_jMainPanelMouseDragged
-
-    private void jMainPanelMouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jMainPanelMouseWheelMoved
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMainPanelMouseWheelMoved
 
     private void jEraserRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jEraserRadioButtonActionPerformed
         // TODO add your handling code here:
