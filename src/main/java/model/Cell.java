@@ -4,12 +4,13 @@
  */
 package model;
 
+import java.util.Comparator;
 import java.util.Set;
 /**
  * This class represents the structure of a cell in the grid
  * @author Marian Luca
  */
-public class Cell {
+public class Cell implements Comparator<Cell>{
     
     private int size = 30; // ???????????????????????????????
     
@@ -18,10 +19,13 @@ public class Cell {
     private final int END = 2;
     private final int NORMAL = 0;
     private final int WALL = -1;
+    private final int SETTLED = 10;
+    private final int ON_PATH = 15;
     private int status;
+    private Cell parent;
     
     // weight represents the distance from the source node/ cell to the current cell
-    private int weight = -1;
+    public int weight = -1;
     
     // The set of neighbours of the current cell
     Set<Cell> neighbours;
@@ -37,7 +41,13 @@ public class Cell {
         this.row = row;
         this.col = col;
         this.status = NORMAL;
+        this.parent = null;
     }
+    
+    /*
+    Empty constructor
+    */
+    public Cell() {}
     
     /*
     This method is used to get the row position of the current cell
@@ -96,8 +106,44 @@ public class Cell {
         }
     }
     
+    public boolean isSetlled() {
+        if (this.status == SETTLED) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public boolean isOnPath() {
+        if (this.status == ON_PATH) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+  
+    /**
+     * This method is used to change the status of the cell
+     * @param s 
+     */
     public void setStatus(int s) {
         this.status = s;
+    }
+    
+    /**
+     * This method changes the parent of the cell
+     * @param p new parent
+     */
+    public void setParent(Cell p) {
+        this.parent = p;
+    }
+    
+    /**
+     * This method returns the parent of the cell
+     * @return parent
+     */
+    public Cell getParent() {
+        return this.parent;
     }
     
     /*
@@ -112,6 +158,17 @@ public class Cell {
     */
     public void setWeight(int w) {
         this.weight = w;
+    }
+
+    @Override
+    public int compare(Cell o1, Cell o2) {
+        if (o1.getWeight() > o2.getWeight()) {
+            return 1;
+        } 
+        if (o1.getWeight() < o2.getWeight()) {
+            return -1;
+        }
+        return 0;
     }
     
 }

@@ -1,39 +1,65 @@
 
 package solvers;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import javax.swing.SwingWorker;
 import model.Cell;
 import model.Grid;
+import gui.MainFrame;
+import java.util.concurrent.CancellationException;
+import javax.swing.JOptionPane;
 /**
  * This is an abstract class for the different algorithms classes implemented
  * @author Marian Luca/ phantomCat1
  */
-public abstract class GeneralSolver {
-    private final Cell start;
-    private final Cell end;
-    private final Grid grid;
+public abstract class GeneralSolver extends SwingWorker<Boolean, Cell>{
+    protected final Cell start;
+    protected final Cell end;
+    final Grid grid;
+    protected boolean result=false;
+    final protected MainFrame FRAME;
     
-    public GeneralSolver(Cell start, Cell end, Grid grid) {
+    public GeneralSolver(Cell start, Cell end, Grid grid, MainFrame frame) {
         this.start = start;
         this.end = end;
         this.grid = grid;
+        this.FRAME = frame;
     }
-    public abstract boolean solve();
-    public boolean runSolver() {
-        SwingWorker<Boolean, Void> solver = new SwingWorker<Boolean, Void>(){
-            @Override
-            protected Boolean doInBackground() throws Exception {
-                return solve();
-            }
-        
-        };
+    
+    @Override
+    protected void done() {
         try {
-            return solver.get();
+            result = get();
+            if (result) {
+                Cell cell = end.getParent();
+                while (cell != start) {
+                    cell.setStatus(15); // set status to ON_PATH 
+                    cell = cell.getParent();
+                    FRAME.repaint();
+                    try {
+                        Thread.sleep(10);
+                    } catch (Exception e) {
+                        System.err.println(e);
+                    }
+                }
+            } else {
+                JOptionPane.showMessageDialog(FRAME, new String[] {"There exists no path between the two cells"},"", JOptionPane.INFORMATION_MESSAGE);
+            }
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            return;
         } catch (ExecutionException e) {
-            e.printStackTrace();
+            return;
+        } catch (CancellationException e) {
+            return;
         }
-        return false;   
     }
+    
+    @Override
+    protected void process(List<Cell> chunks) {
+        for (Cell c: chunks) {
+            FRAME.repaint();
+        }
+    }
+    
+    
 }

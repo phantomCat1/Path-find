@@ -44,47 +44,17 @@ public class GridPanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
-    private int cellSize = 10;
-    private int offsetX = cellSize;
-    private int offsetY = cellSize;
+    private final int cellSize = 10;
     private Grid grid;
-    private Cell start;
-    private Cell end;
     private Set<Cell> walls;
     
     private void initPanel() {
-        this.grid = new Grid();
-        this.start = null;
-        this.end = null;
+        setGrid(null);
         walls = new HashSet<Cell>();
     }
     
-    /*
-    This method returns the source cell 
-    */
-    public Cell getStart() {
-        return start;
-    }
-    
-    /*
-    This method is used to set the start cell of the path
-    */
-    public void setStart(Cell s) {
-        this.start = s;
-    }
-    
-    /*
-    This method returns the source cell 
-    */
-    public Cell getEnd() {
-        return end;
-    }
-    
-     /*
-    This method is used to set the start cell of the path
-    */
-    public void setEnd(Cell s) {
-        this.end = s;
+    public void setGrid(Grid grid) {
+        this.grid = grid;
     }
     
     /*
@@ -101,13 +71,7 @@ public class GridPanel extends javax.swing.JPanel {
         walls.remove(cell);
     }
     
-    public void setCellSize(int size) {
-        if (size <=30 && size >= 10) {
-            this.cellSize = size;
-            this.offsetX = size;
-            this.offsetY = size;
-        }
-    }
+    
     
     private void paintCell(Graphics g, Cell cell, int x, int y) {
        if (cell.isWall()) {
@@ -116,6 +80,10 @@ public class GridPanel extends javax.swing.JPanel {
            g.setColor(Color.green);
        } else if (cell.isEnd()) {
            g.setColor(Color.red);
+       } else if (cell.isSetlled()) {
+           g.setColor(Color.darkGray);
+       } else if (cell.isOnPath()) {
+           g.setColor(Color.yellow);
        } else {
            g.setColor(Color.white);
        }

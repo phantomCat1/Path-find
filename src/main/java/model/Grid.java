@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package model;
 
 import java.util.Set;
@@ -46,24 +43,46 @@ public class Grid {
     }
     
     public Cell getCell(int row, int col) {
+        if (row < 0 || row >= this.ROWS) {
+            return null;
+        }
+        if (col <0 || col >= this.COLS) {
+            return null;
+        }
         return grid[row][col];
     }
     
-    public void resetWalls(Set<Cell> walls) {
-        for (Cell cell: walls) {
-            cell.setStatus(0); // i.e to normal
+    public void resetWalls() {
+        for (int i=0; i<ROWS; i++) {
+            for (int j=0; j<COLS; j++) {
+                final Cell cell = this.getCell(i, j);
+                if (cell.isWall()) {
+                    cell.setStatus(0);
+                }
+            }
         }
     }
     
-    public void resetPath(Set<Cell> path) {
-        for (Cell cell: path) {
-            cell.setWeight(-1);
+    public void resetPath() {
+        for (int i=0; i<ROWS; i++) {
+            for (int j=0; j<COLS; j++) {
+                final Cell cell = this.getCell(i, j);
+                if (cell.isOnPath() || cell.isSetlled()) {
+                    cell.setStatus(0);
+                }
+            }
         }
     }
     
-    public void resetEverything(Set<Cell> path, Set<Cell> walls) {
-        resetWalls(walls);
-        resetPath(path);
+    public void resetEverything() {
+        for (int i=0; i<ROWS; i++) {
+            for (int j=0; j<COLS; j++) {
+                final Cell cell = this.getCell(i, j);
+                if (!cell.isNormal()) {
+                    cell.setStatus(0);
+                }
+            }
+        }
     }
     
 }
