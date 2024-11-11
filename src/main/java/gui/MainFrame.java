@@ -429,6 +429,11 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jBFSButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBFSButtonMouseClicked
         // TODO add your handling code here:
+        jAlgoPanel.setVisible(false);
+        solving = true; // Keep track of the fact that solving has begun.
+        solver = new BFSSolver(start,end,grid, this);
+        
+        solver.execute();
     }//GEN-LAST:event_jBFSButtonMouseClicked
 
     private void jGreedyButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jGreedyButtonMouseClicked

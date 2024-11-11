@@ -37,7 +37,7 @@ public class DijkstraSolver extends GeneralSolver{
                     continue;
                 }
                 Cell cell = grid.getCell(i, j);
-                if (cell != null && !settledCells.contains(cell)) {
+                if (cell != null && !settledCells.contains(cell) && !cell.isWall()) {
                     int newDistance = distance +1;
                     if (newDistance < cell.getWeight()) {
                         cell.setParent(c);
@@ -51,6 +51,8 @@ public class DijkstraSolver extends GeneralSolver{
 
     @Override
     protected Boolean doInBackground() throws Exception {
+        // We setup each cell with a maximum weight and count the number of non-wall cells
+        // which are the cells we will be working with as part of the graph
         for (int i=0; i<grid.getRows(); i++) {
             for (int j=0; j<grid.getCols(); j++) {
                Cell cell = grid.getCell(i, j);
@@ -71,24 +73,30 @@ public class DijkstraSolver extends GeneralSolver{
             if(this.isCancelled()) {
                throw new InterruptedException("Cancelled");
            }
+            // if there are still cells to be investigated but the queue is empty
+            // this means there is no access to these cells including the end cell, so we return false
             if (queue.isEmpty()) {
                 return false;
             }
             // Remove the cell with smallest distance from source
             Cell cell = queue.remove();
+            // if end cell is found stop execution and return true
+            if(cell.isEnd()) {
+                return true;
+            }
             // If already investigated, skip this iteration
             if (settledCells.contains(cell)) {
                 continue;
             }
             // Add to the set of investigated cells
             settledCells.add(cell);
-            publish(cell);
+            
             // Change status to VISITED for repainting
             // we only repaint NORMAL cells
             if (cell.isNormal()) {
                 cell.setStatus(10);
             }
-
+            publish(cell);
             // Investigate neighbours of current cell 
             investigateNeighbours(cell);
             try {
