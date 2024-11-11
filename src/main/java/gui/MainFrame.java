@@ -425,6 +425,11 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jDFSButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jDFSButtonMouseClicked
         // TODO add your handling code here:
+        jAlgoPanel.setVisible(false);
+        solving = true; // Keep track of the fact that solving has begun.
+        solver = new DFSSolver(start,end,grid, this);
+        
+        solver.execute();
     }//GEN-LAST:event_jDFSButtonMouseClicked
 
     private void jBFSButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBFSButtonMouseClicked

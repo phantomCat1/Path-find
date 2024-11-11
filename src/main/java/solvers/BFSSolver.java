@@ -11,21 +11,13 @@ import gui.MainFrame;
  */
 public class BFSSolver extends GeneralSolver {
     private Queue<Cell> queue;
-    private int vertexNumber;
     private Set<Cell> settled;
     
     public BFSSolver(Cell start, Cell end, Grid grid, MainFrame frame) {
         super(start, end, grid, frame);
         queue = new LinkedList<Cell>();
         settled = new HashSet<Cell>();
-        for (int i=0; i<grid.getRows();i++) {
-            for (int j=0; j<grid.getCols();j++) {
-                Cell c = grid.getCell(i, j);
-                if(!c.isWall()) {
-                    vertexNumber++;
-                }
-            }
-        }
+        
     }
     
     @Override
