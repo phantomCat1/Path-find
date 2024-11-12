@@ -24,8 +24,9 @@ public class Cell implements Comparator<Cell>{
     private int status;
     private Cell parent;
     
-    // weight represents the distance from the source node/ cell to the current cell
-    public int weight = -1;
+    // distance represents the distance from the source node/ cell to the current cell in the Dijkstra algorithm
+    // or the F cost in the A-Star algorithm
+    public int distance = -1;
     
     // The set of neighbours of the current cell
     Set<Cell> neighbours;
@@ -149,23 +150,23 @@ public class Cell implements Comparator<Cell>{
     /*
     This method is used to get the weight of the current cell
     */
-    public int getWeight() {
-        return this.weight;
+    public int getDistance() {
+        return this.distance;
     }
     
     /*
     This method is used to set/ change the weight of the current cell
     */
-    public void setWeight(int w) {
-        this.weight = w;
+    public void setDistance(int w) {
+        this.distance = w;
     }
 
     @Override
     public int compare(Cell o1, Cell o2) {
-        if (o1.getWeight() > o2.getWeight()) {
+        if (o1.getDistance() > o2.getDistance()) {
             return 1;
         } 
-        if (o1.getWeight() < o2.getWeight()) {
+        if (o1.getDistance() < o2.getDistance()) {
             return -1;
         }
         return 0;

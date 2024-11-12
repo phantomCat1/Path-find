@@ -5,8 +5,6 @@ import java.util.*;
 import model.Cell;
 import model.Grid;
 import gui.MainFrame;
-import java.util.concurrent.ExecutionException;
-import javax.swing.SwingWorker;
 /**
  *This class is used to implement the Dijkstra algorithm for finding the path.
  * @author Marian Luca/ phnatomCat1
@@ -24,14 +22,18 @@ public class DijkstraSolver extends GeneralSolver{
         
     }
     
-    
+    /**
+     *  This method checks the up, down, left, right neighbours of the given cell
+     * @param c the cell whose neighbours we need to check
+     */
     private void investigateNeighbours(Cell c) {
         final int row = c.getRow();
         final int col = c.getCol();
-        final int distance = c.getWeight();
+        final int distance = c.getDistance();
         int counter=0;
         for (int i = row-1; i <= row+1; i++) {
             for (int j = col-1; j<= col+1; j++) {
+                // we ensure that only the up, down, left, right neighbours are checked
                 counter+=1;
                 if (counter%2 !=0) {
                     continue;
@@ -39,9 +41,18 @@ public class DijkstraSolver extends GeneralSolver{
                 Cell cell = grid.getCell(i, j);
                 if (cell != null && !settledCells.contains(cell) && !cell.isWall()) {
                     int newDistance = distance +1;
-                    if (newDistance < cell.getWeight()) {
+                    if (queue.contains(cell)) {
+                        if (newDistance < cell.getDistance()) {
+                            cell.setParent(c);
+                            cell.setDistance(newDistance);
+                            // PriorityQueue does not automatically update itself when an already queued element
+                            // changes its comparison value
+                            queue.remove(cell);
+                            queue.add(cell);
+                        }    
+                    } else {
                         cell.setParent(c);
-                        cell.setWeight(distance +1);
+                        cell.setDistance(newDistance);
                         queue.add(cell);
                     }
                 }
@@ -57,7 +68,7 @@ public class DijkstraSolver extends GeneralSolver{
             for (int j=0; j<grid.getCols(); j++) {
                Cell cell = grid.getCell(i, j);
                if (!cell.isWall()) {
-                   cell.setWeight(Integer.MAX_VALUE);
+                   cell.setDistance(Integer.MAX_VALUE);
                    vertexNumber+=1;
                }
                if(this.isCancelled()) {
@@ -65,19 +76,17 @@ public class DijkstraSolver extends GeneralSolver{
                }
             }
         }
-        start.setWeight(0);
+        start.setDistance(0);
         queue.add(start);
 
-
-        while (settledCells.size()!= vertexNumber) {
+        // we iterate until the queue is empty, meaning we explored as many cells as we could
+        // if no path was found during this exploration of as many cells as possible, i.e. the queue is empty
+        // then there exists no such path
+        while (!queue.isEmpty()) {
             if(this.isCancelled()) {
                throw new InterruptedException("Cancelled");
            }
-            // if there are still cells to be investigated but the queue is empty
-            // this means there is no access to these cells including the end cell, so we return false
-            if (queue.isEmpty()) {
-                return false;
-            }
+            
             // Remove the cell with smallest distance from source
             Cell cell = queue.remove();
             // if end cell is found stop execution and return true
@@ -105,7 +114,7 @@ public class DijkstraSolver extends GeneralSolver{
                 System.err.println(e);
             }
         }
-        return true;
+        return false;
     }
             
     

@@ -51,7 +51,6 @@ public class MainFrame extends javax.swing.JFrame {
         jAStarButton = new javax.swing.JButton();
         jDFSButton = new javax.swing.JButton();
         jBFSButton = new javax.swing.JButton();
-        jGreedyButton = new javax.swing.JButton();
         jBidirectionalButton = new javax.swing.JButton();
         jMainPanel = new gui.GridPanel();
         jEndAlgoPanel = new javax.swing.JPanel();
@@ -178,13 +177,6 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        jGreedyButton.setText("Greedy Best First");
-        jGreedyButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jGreedyButtonMouseClicked(evt);
-            }
-        });
-
         jBidirectionalButton.setText("Bidirectional");
         jBidirectionalButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -203,7 +195,6 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(jDijkstraButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jDFSButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jBFSButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jGreedyButton, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
                     .addComponent(jBidirectionalButton, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE))
                 .addContainerGap(77, Short.MAX_VALUE))
         );
@@ -219,10 +210,8 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jBFSButton, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jGreedyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addComponent(jBidirectionalButton, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(107, Short.MAX_VALUE))
         );
 
         jMainPanel.setPreferredSize(new java.awt.Dimension(860, 530));
@@ -441,12 +430,13 @@ public class MainFrame extends javax.swing.JFrame {
         solver.execute();
     }//GEN-LAST:event_jBFSButtonMouseClicked
 
-    private void jGreedyButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jGreedyButtonMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jGreedyButtonMouseClicked
-
     private void jAStarButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jAStarButtonMouseClicked
         // TODO add your handling code here:
+        jAlgoPanel.setVisible(false);
+        solving = true; // Keep track of the fact that solving has begun.
+        solver = new AStarSolver(start,end,grid, this);
+        
+        solver.execute();
     }//GEN-LAST:event_jAStarButtonMouseClicked
 
     private void jBidirectionalButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBidirectionalButtonMouseClicked
@@ -459,25 +449,20 @@ public class MainFrame extends javax.swing.JFrame {
             return;
         }
         final Cell cell = gridPanel.mouseToCell(evt);
-        System.out.println(String.format("Cell coord: %d, %d", cell.getRow(), cell.getCol()));
+        
         if (cell == null) {
-            System.out.println("null cell clicke");
             return;
         }
         if (!solving) {
             if (cell.isNormal() && cellTypeCounter == 0) {
-                System.out.println(String.format("Cell normal: %b", cell.isNormal()));
                 cell.setStatus(1); //i.e status START = 1 
                 start = cell;
                 cellTypeCounter = 1;
-                System.out.println(String.format("Cell start: %b", cell.isStart()));
             }
             else if (cell.isStart() && eraser) {
-                System.out.println(String.format("Cell start: %b", cell.isStart()));
                 cell.setStatus(0); // i.e. status NORMAL = 0
                 start = null;
                 cellTypeCounter = 0;
-                System.out.println(String.format("Cell normal: %b", cell.isNormal()));
             }
             else if (cell.isNormal() && cellTypeCounter == 1) {
                 cell.setStatus(2); // i.e status END = 2;
@@ -510,9 +495,7 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (!solving) {
         final Cell cell = gridPanel.mouseToCell(evt);
-        System.out.println(String.format("Cell coord: %d, %d", cell.getRow(), cell.getCol()));
         if (cell == null) {
-            System.out.println("null cell clicke");
             return;
         }
         
@@ -632,7 +615,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton jDijkstraButton;
     private javax.swing.JPanel jEndAlgoPanel;
     private javax.swing.JRadioButton jEraserRadioButton;
-    private javax.swing.JButton jGreedyButton;
     private javax.swing.JButton jHelpButton;
     private javax.swing.JLayeredPane jLayeredPane1;
     private gui.GridPanel jMainPanel;
