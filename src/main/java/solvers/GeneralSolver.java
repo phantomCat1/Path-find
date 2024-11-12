@@ -36,11 +36,7 @@ public abstract class GeneralSolver extends SwingWorker<Boolean, Cell>{
                     cell.setStatus(15); // set status to ON_PATH 
                     cell = cell.getParent();
                     FRAME.repaint();
-                    try {
-                        Thread.sleep(10);
-                    } catch (Exception e) {
-                        System.err.println(e);
-                    }
+                    
                 }
             } else {
                 JOptionPane.showMessageDialog(FRAME, new String[] {"There exists no path between the two cells"},"", JOptionPane.INFORMATION_MESSAGE);

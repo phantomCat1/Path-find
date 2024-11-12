@@ -39,9 +39,10 @@ public class BFSSolver extends GeneralSolver {
             settled.add(cell);
             if(cell.isNormal()) {
                 cell.setStatus(10);
+                // publish cell so that the EDT can repaint the panel
+                publish(cell);
             }
-            // publish cell so that the EDT can repaint the panel
-            publish(cell);
+            
             // check and add neighbours to queue
             investigateNeighbours(cell);
             Thread.sleep(FRAME.getDelay());

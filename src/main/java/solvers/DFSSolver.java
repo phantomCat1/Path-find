@@ -53,9 +53,10 @@ public class DFSSolver extends GeneralSolver {
                 // change cell status to settled to allow proper repaint
                 if(cell.isNormal()) {
                     cell.setStatus(10);
+                    // publish this cell so that it can be repainted
+                    publish(cell);
                 }
-                // publish this cell so that it can be repainted
-                publish(cell);
+                
                 Thread.sleep(FRAME.getDelay());
                 // recursively investigate the depth of this neighbour cell
                 result = DFSrecurse(cell);

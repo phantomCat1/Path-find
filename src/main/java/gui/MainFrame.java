@@ -441,6 +441,11 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jBidirectionalButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jBidirectionalButtonMouseClicked
         // TODO add your handling code here:
+        jAlgoPanel.setVisible(false);
+        solving = true; // Keep track of the fact that solving has begun.
+        solver = new BidirectionalSolver(start,end,grid, this);
+        
+        solver.execute();
     }//GEN-LAST:event_jBidirectionalButtonMouseClicked
 
     private void jMainPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMainPanelMouseClicked

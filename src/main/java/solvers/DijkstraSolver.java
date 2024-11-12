@@ -104,8 +104,9 @@ public class DijkstraSolver extends GeneralSolver{
             // we only repaint NORMAL cells
             if (cell.isNormal()) {
                 cell.setStatus(10);
+                publish(cell);
             }
-            publish(cell);
+            
             // Investigate neighbours of current cell 
             investigateNeighbours(cell);
             try {
