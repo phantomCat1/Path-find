@@ -15,7 +15,7 @@ Path-find is a desktop application for visualizing path finding algorithms. The 
 To be able to properly use the application, make sure you have at least the `21.0.3 JDK version` and that  the JDK path is set in the environment variables. Click [here](https://adoptium.net/temurin/releases/) to find the latest OpenJDK version. Further tutorials of setting up the environment can be found online.
 You can check your java version by opening the `cmd` and typing: 
 ```bash
-`java -version`
+java -version
 ```
 ### Building the project
 ```bash
@@ -40,7 +40,7 @@ javac -d classes src/**/*.java
 cd ../classes
 
 # To run the project
-java git.MainFrame
+java gui.MainFrame
 
 ```
 ---
